@@ -52,7 +52,7 @@ class BasicBlock(nn.Module):
 
 
 class Bottleneck(nn.Module):
-    expansion = 4
+    expansion = 1
 
     def __init__(self, inplanes, planes, stride=1, downsample=None, groups=1, base_width=64, dilation=1,
                  norm_layer=None):
@@ -164,18 +164,21 @@ class ResNet(nn.Module):
         x = self.conv1(x)
         x = self.bn1(x)
         x = self.relu(x)
-        stem = self.maxpool(x)       
+        stem = self.maxpool(x)   
+ 
         block1 = self.layer1(stem)         # res block1
         block2 = self.layer2(block1)       # res block2        
         block3 = self.layer3(block2)       # res block3
         block4 = self.layer4(block3)       # res block4
-        return block1, block2, block4
+        min_block, mid_block, max_block = block1, block2, block4
+        return min_block, mid_block, max_block
 
     def forward(self, x):
         return self._forward_impl(x)
 
 
-resnet = ResNet(Bottleneck, [3, 4, 6, 3])
-x = torch.randn(1, 3, 224, 224)
-x = resnet(x)
-print(x.shape)
+# resnet = ResNet(Bottleneck, [3, 4, 6, 3])
+# x = torch.randn(1, 3, 224, 224)
+# x = resnet(x)
+# for i in x:
+#     print(i.shape)
