@@ -24,7 +24,7 @@ class RboexsPredictor(nn.Module):
 class AttentionHeatMap(nn.Module):
     def __init__(self):
         super(AttentionHeatMap, self).__init__()
-        self.conv1 = nn.Conv2d(256, 256, kernel_size=1)
+        self.conv1 = nn.Conv2d(256, 64, kernel_size=1)
         self.sigmoid = nn.Sigmoid()
     
     def forward(self, x):
